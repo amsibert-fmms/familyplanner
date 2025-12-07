@@ -92,6 +92,11 @@ See the [Planning Index](./README.md) for how this roadmap fits with the [Data M
 - My tasks, household tasks, elder-specific task views.
 - Overdue, due soon, completed filters.
 
+### 2.6 Vehicle & Appliance Maintenance
+- Asset records for vehicles and major appliances with ownership/visibility applied.
+- Maintenance schedules that attach to assets and generate Tasks (category VEHICLE/APPLIANCE) with default assignees.
+- WorkOrders that group Tasks, track vendor/cost/status, and sync completion back to asset service history.
+
 **Milestone:** Unified task engine powering chores, elder care, maintenance, and bills.
 
 ## 🧴 Phase 3 — Meal Planning & Food Foundations (3–5 weeks)

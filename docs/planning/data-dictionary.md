@@ -190,17 +190,20 @@ One-to-one with Django `User`.
 | household | FK → Household |  |
 | title | string |  |
 | description | text |  |
-| category | enum | HOUSEHOLD, ELDER_CARE, MAINTENANCE, PET, BILL_REMINDER |
+| category | enum | HOUSEHOLD, ELDER_CARE, MAINTENANCE, PET, BILL_REMINDER, VEHICLE, APPLIANCE |
 | location | FK → Location (nullable) |  |
 | elder | FK → Elder (nullable) |  |
 | pet | FK → Pet (nullable) |  |
 | related_maintenance_schedule | FK → MaintenanceSchedule (nullable) |  |
+| vehicle | FK → Vehicle (nullable) |  |
+| appliance | FK → Appliance (nullable) |  |
 | due_date | date (nullable) |  |
 | due_datetime | datetime (nullable) |  |
 | priority | int |  |
 | is_completed | bool |  |
 | last_completed_at | datetime (nullable) |  |
 | created_from_template | FK → ElderCareTaskTemplate (nullable) |  |
+| work_order | FK → WorkOrder (nullable) | Links to structured maintenance order |
 | assigned_to_user | FK → User (nullable) |  |
 | assigned_to_group | FK → VisibilityGroup (nullable) |  |
 | recurrence_type | enum |  |
@@ -502,3 +505,67 @@ Creates `Task(category=BILL_REMINDER)` monthly.
 | excluded_ingredients | M2M → Ingredient |  |
 | nutrition_focus_goals | JSON | “low sodium”, “increase fiber” |
 | medical_constraints | text | e.g., low-sodium for eldercare |
+
+## 12. App: assets (vehicles & appliances)
+
+### 12.1 Vehicle (extends OwnedVisibleModel)
+
+| Field | Type | Description |
+| --- | --- | --- |
+| household | FK → Household |  |
+| location | FK → Location (nullable) | Where the vehicle is typically stored |
+| name | string | Friendly name e.g., “Family SUV” |
+| make | string |  |
+| model | string |  |
+| year | int |  |
+| vin | string (unique, nullable) | Optional for bikes/older cars |
+| license_plate | string (nullable) |  |
+| mileage | int (nullable) | Last recorded odometer |
+| fuel_type | enum | gas/diesel/hybrid/ev/other |
+| in_service_since | date (nullable) | When purchased/entered service |
+| warranty_expires_at | date (nullable) |  |
+| insurance_policy | string (nullable) | Reference/notes only |
+| notes | text |  |
+
+### 12.2 Appliance (extends OwnedVisibleModel)
+
+| Field | Type | Description |
+| --- | --- | --- |
+| household | FK → Household |  |
+| location | FK → Location | Home/room where the appliance lives |
+| name | string | e.g., “Kitchen dishwasher” |
+| brand | string |  |
+| model_number | string |  |
+| serial_number | string (nullable) |  |
+| category | string | fridge/dishwasher/washing_machine/etc |
+| installed_at | date (nullable) |  |
+| warranty_expires_at | date (nullable) |  |
+| service_interval_months | int (nullable) | Hint for maintenance cadence |
+| manual_url | string (nullable) | Link to manual or notes |
+| notes | text |  |
+
+## 13. App: workorders
+
+### 13.1 WorkOrder (extends OwnedVisibleModel)
+
+| Field | Type | Description |
+| --- | --- | --- |
+| household | FK → Household |  |
+| vehicle | FK → Vehicle (nullable) |  |
+| appliance | FK → Appliance (nullable) |  |
+| title | string |  |
+| description | text |  |
+| status | enum | open, in_progress, completed, cancelled |
+| priority | int | Aligns with Task priority |
+| scheduled_at | datetime (nullable) | Appointment/start time |
+| due_date | date (nullable) | Target completion |
+| completed_at | datetime (nullable) |  |
+| vendor_name | string (nullable) | Shop/vendor performing work |
+| vendor_contact | string (nullable) | Phone/email/reference |
+| cost_estimate | decimal (nullable) |  |
+| actual_cost | decimal (nullable) |  |
+| related_task | FK → Task (nullable) | Primary task driving execution |
+| attachments | File/JSON (optional) | Invoices/photos of repairs |
+| notes | text | Internal comments |
+
+**Validation notes:** WorkOrders should point to either a vehicle or an appliance (not both) and adopt the same visibility rules as the associated asset. Completion should require at least one linked TaskCompletion via the related Task.

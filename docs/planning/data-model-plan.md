@@ -42,6 +42,23 @@ These stubs translate roadmap phases into codex-sized tickets. Use the scope tag
 - Queue enrichment/background sync jobs for offline scans and replays (`tasks/services/background_sync.py`), ensuring idempotent updates.
 :::
 
+## Vehicle & Appliance Maintenance Expansion
+Extend the maintenance/task engine to cover household vehicles and major appliances with structured work orders.
+
+:::task-stub{title="Add Vehicle and Appliance asset models"}
+- Create `Vehicle` and `Appliance` models inheriting `OwnedVisibleModel` with household/location links, basic specs (make/model/year for vehicles; brand/model/serial for appliances), and lifecycle metadata (in-service date, warranty expiration, service interval hints).
+- Attach assets to `MaintenanceSchedule` and `Task` (new nullable FK fields) so existing recurrence and assignment flows can target a specific vehicle or appliance.
+- Add admin/serializer validation to prevent conflicting asset references (e.g., a task cannot point to both vehicle and appliance simultaneously) and to carry visibility rules from the owning household.
+- Seed fixtures for a sample car and dishwasher to exercise visibility and task linking in local/dev environments.
+:::
+
+:::task-stub{title="Implement WorkOrder tracking for asset maintenance"}
+- Introduce a `WorkOrder` model (extends `OwnedVisibleModel`) with fields for asset reference (vehicle or appliance), status (open/in_progress/completed/cancelled), priority, scheduled_at, completed_at, vendor/contact info, cost estimates, and attachments.
+- Wire `WorkOrder` to auto-create or attach `Task` records (category=`MAINTENANCE`, `VEHICLE`, or `APPLIANCE`) for assignment and completion tracking; ensure reciprocal FK (`task.work_order`) to keep audit trails synchronized.
+- Add serializers/views for CRUD plus status transitions, including validation that completion timestamps require at least one associated TaskCompletion.
+- Write unit tests covering task-workorder synchronization, visibility enforcement, and asset-specific validation (e.g., vehicle VIN uniqueness, appliance serial optional but stored when present).
+:::
+
 ## 0) Enrichment & Provenance Enablement
 Apply the roadmap’s enrichment strategy in code, preserving local-first, user-controlled flows.
 
