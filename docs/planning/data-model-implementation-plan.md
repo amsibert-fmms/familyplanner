@@ -1,6 +1,12 @@
 # Updated Data Model Implementation Plan
 
-Below is a planning document for implementing the updated data model. Each major workstream includes a task stub with step-by-step implementation guidance.
+This plan breaks down the data-model-oriented workstreams into actionable task stubs.
+Use it with the roadmap for sequencing and the data dictionary for field-level reference.
+
+**Suggested sequencing:**
+1. Establish bill reminders via Tasks to align with the roadmap’s Phase 2.
+2. Land nutrition-aware Ingredient and Recipe work before meal-planning features in Phase 3.
+3. Layer UserNutritionProfile and automation after core aggregation logic is stable.
 
 ## 1) Consolidate Tasks into Core Bill-Reminder Usage
 The finance subsystem is removed; bill reminders now use Task with category `BILL_REMINDER`.

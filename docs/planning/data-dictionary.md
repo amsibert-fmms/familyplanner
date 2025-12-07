@@ -2,6 +2,21 @@
 
 This document captures the full data dictionary for the Family Planner application, organized by app.
 
+## Navigation
+- [accounts](#1-app-accounts)
+- [visibility](#2-app-visibility)
+- [locations](#3-app-locations)
+- [eldercare](#4-app-eldercare)
+- [tasks](#5-app-tasks)
+- [food](#6-app-food-recipes-ingredients-nutrition)
+- [scanning](#7-app-scanning)
+- [notifications](#8-app-notifications)
+- [automation](#9-app-automation)
+- [pwa](#10-app-pwa)
+- [nutrition](#11-app-nutrition)
+
+Use this reference alongside the roadmap and implementation plan to keep schemas consistent across services and APIs.
+
 ## 1. App: accounts
 
 ### 1.1 Profile

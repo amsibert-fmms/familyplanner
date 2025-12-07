@@ -1,12 +1,12 @@
 # Hybrid Local + Optional External Data Fetch Design
 
-This document describes a local-first data enrichment approach for ingredients, products, nutrition fields, barcodes, and receipt OCR entries. External sources are used opportunistically, never required, and always editable by the user.
+This strategy keeps enrichment local-first while allowing optional external lookups for barcodes, products, and nutrition data. It pairs with the roadmap and data model plan to ensure enrichment work is safe, reviewable, and traceable.
 
-## Principles
-- Local-first storage with optional enrichment; the data model does not depend on external services.
-- User control: proposed data is always reviewable and editable before persistence.
-- Privacy and offline friendliness: enrichment can be deferred to background sync when connectivity is available.
-- Traceability: provenance metadata records source system, URL, and confidence.
+## Scope and Principles
+- **Local-first**: the data model and user experience never depend on external services.
+- **User control**: proposed data is always reviewable and editable before persistence.
+- **Offline-friendly**: enrichment can be deferred to background sync when connectivity is available.
+- **Traceable**: provenance metadata records source system, URL, and confidence.
 
 ## Target Objects
 - Ingredients, Products, PantryItems, RecipeIngredients, and any models with nutrition or barcode data.
@@ -18,13 +18,13 @@ This document describes a local-first data enrichment approach for ingredients, 
 - Edamam (paid)
 - Retail APIs (e.g., Walmart/Target) as optional harder sources
 
-## Recommended Model Additions (optional)
+## Recommended Model Additions
 Add provenance fields to models that receive enriched data:
 - `source_url` (string)
 - `source_system` (choices: Manual, OFF, USDA, etc.)
 - `source_confidence` (decimal/float)
 
-## Enrichment Services and Order
+## Service Entry Points
 Implement configurable pipelines in:
 - `ingredient_enrichment_service.py`
 - `product_lookup_service.py`

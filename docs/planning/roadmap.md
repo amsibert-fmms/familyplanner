@@ -1,6 +1,27 @@
 # Family Planner Roadmap
 
-This document outlines the proposed phases for the Family Planner project, including core milestones and estimated timelines.
+This roadmap outlines the proposed phases for the Family Planner project, including core milestones and estimated timelines.
+Use it alongside the implementation plan, data dictionary, and enrichment strategy in this planning package.
+
+- Implementation tasks: see [`data-model-implementation-plan.md`](./data-model-implementation-plan.md)
+- Schema reference: see [`data-dictionary.md`](./data-dictionary.md)
+- Enrichment details: see [`hybrid-enrichment-strategy.md`](./hybrid-enrichment-strategy.md)
+
+## At-a-Glance Timeline
+
+| Phase | Est. Time | Core Outcome |
+| --- | --- | --- |
+| 0 | 1–2 weeks | Infrastructure + PWA skeleton |
+| 1 | 1–3 weeks | Household, visibility, locations |
+| 2 | 2–4 weeks | Task engine + elder care + maintenance + bills |
+| 3 | 3–5 weeks | Food, nutrition, pantry, grocery, meal planning |
+| 4 | 4–6 weeks | Barcode + OCR + enrichment pipeline |
+| 5 | 2–4 weeks | Push notifications + automation |
+| 6 | 2–3 weeks | Nutrition profiles & diet rules |
+| 7 | 2–4 weeks | Optimization + hardening |
+| 8 | ongoing | Advanced AI & integrations |
+
+**Total MVP:** Approximately 12–20 weeks depending on depth per phase.
 
 ## 🗾 Phase 0 — Foundation & Infrastructure (1–2 weeks)
 
@@ -176,16 +197,9 @@ This document outlines the proposed phases for the Family Planner project, inclu
 
 ## 📌 Grand Timeline Summary (Flexible)
 
-| Phase | Est. Time | Core Outcome |
-| --- | --- | --- |
-| 0 | 1–2 weeks | Infrastructure + PWA skeleton |
-| 1 | 1–3 weeks | Household, visibility, locations |
-| 2 | 2–4 weeks | Task engine + elder care + maintenance + bills |
-| 3 | 3–5 weeks | Food, nutrition, pantry, grocery, meal planning |
-| 4 | 4–6 weeks | Barcode + OCR + enrichment pipeline |
-| 5 | 2–4 weeks | Push notifications + automation |
-| 6 | 2–3 weeks | Nutrition profiles & diet rules |
-| 7 | 2–4 weeks | Optimization + hardening |
-| 8 | ongoing | Advanced AI & integrations |
+The timeline above assumes phases can overlap where dependencies are light. Prioritize:
+- Phase 0 foundations before any other engineering work.
+- Phase 1 visibility rules before exposing tasks, locations, or food objects broadly.
+- Phase 2 task engine stability before automation, nutrition alerts, or OCR pipelines.
 
-**Total MVP:** Approximately 12–20 weeks depending on depth per phase.
+Reassess durations at the end of each phase based on risk and integration complexity.

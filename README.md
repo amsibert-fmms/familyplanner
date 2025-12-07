@@ -108,6 +108,10 @@ familyplanner/
 └── manage.py           # Django management script
 ```
 
+## Planning Documentation
+
+Roadmap, data-model plans, and enrichment strategies live under [`docs/planning`](./docs/planning/README.md) for easy navigation.
+
 ## Environment Variables
 
 Key environment variables (see `.env.example` for full list):
