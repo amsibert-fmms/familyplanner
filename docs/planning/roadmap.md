@@ -4,6 +4,16 @@ This roadmap outlines phased delivery for the Family Planner project, including 
 
 See the [Planning Index](./README.md) for how this roadmap fits with the [Data Model Plan](./data-model-plan.md), [Enrichment Strategy](./enrichment-strategy.md), and [Data Dictionary](./data-dictionary.md).
 
+## Reading Guide
+- **Status tags:** Inline markers like _(In Progress)_ or _(Complete — 2024-06-15)_ communicate current state; keep them updated during weekly reviews.
+- **Exit criteria:** Each phase should reach a “Milestone” section that can be demoed and verified in staging.
+- **Risks & dependencies:** Capture blockers beneath each phase so mitigations are visible to product/engineering.
+
+## Now / Next / Later Snapshot
+- **Now:** Phase 0 hardening and Phase 1 visibility enforcement.
+- **Next:** Phase 2 task engine features and templates.
+- **Later:** Phase 3 meal planning foundations and beyond.
+
 ## 🗾 Phase 0 — Foundation & Infrastructure (1–2 weeks)
 
 ### 0.1 Project Setup

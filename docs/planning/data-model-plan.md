@@ -4,6 +4,11 @@ This plan breaks down the data-model-related workstreams into actionable task st
 
 Use it alongside the [Planning Index](./README.md) and related references like the [Roadmap](./roadmap.md), [Enrichment Strategy](./enrichment-strategy.md), and [Data Dictionary](./data-dictionary.md).
 
+## Working Notes
+- Update task stubs with status tags (e.g., _(In Progress)_, _(Ready for review)_); keep the order aligned with the Roadmap’s Now/Next/Later snapshot.
+- Add short decision callouts when schemas change (what changed, why, when) so migrations remain traceable.
+- Link to tickets or PRs from each stub after work begins to keep planning artifacts connected to implementation.
+
 ## 1) Consolidate Tasks into Core Bill-Reminder Usage
 The finance subsystem is removed; bill reminders now use Task with category `BILL_REMINDER`.
 
