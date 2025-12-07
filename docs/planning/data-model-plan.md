@@ -2,12 +2,55 @@
 
 This plan breaks down the data-model-related workstreams into actionable task stubs.
 
-Use it alongside the [Planning Index](./README.md) and related references like the [Roadmap](./roadmap.md), [Enrichment Strategy](./enrichment-strategy.md), and [Data Dictionary](./data-dictionary.md).
+Use it alongside the [Planning Index](./README.md) and related references like the [Roadmap](./roadmap.md) (which now owns the enrichment strategy) and the [Data Dictionary](./data-dictionary.md). Enrichment sequencing lives in the roadmap; this plan adds the implementation stubs to keep that guidance actionable.
 
 ## Working Notes
 - Update task stubs with status tags (e.g., _(In Progress)_, _(Ready for review)_); keep the order aligned with the Roadmap’s Now/Next/Later snapshot.
 - Add short decision callouts when schemas change (what changed, why, when) so migrations remain traceable.
 - Link to tickets or PRs from each stub after work begins to keep planning artifacts connected to implementation.
+
+## Roadmap → Codex Task Breakdown
+These stubs translate roadmap phases into codex-sized tickets. Use the scope tags to keep work batchable.
+
+:::task-stub{title="Phase 0: visibility core hardening"}
+- Add `OwnedVisibleModel`/`VisibilityGroup` unit tests covering owner-only, household default, and extended family scopes (see `visibility/models.py`).
+- Implement DRF permission mixins that combine owner, household, and group membership (update `visibility/permissions.py`).
+- Create seed fixtures for sample households and visibility groups for local/dev data (`visibility/fixtures/`).
+:::
+
+:::task-stub{title="Phase 1: household/pet CRUD polish"}
+- Build CRUD serializers/views for Household, FamilyMember, Pet, and Location with visibility filters applied (`locations/views.py`, `accounts/views.py`).
+- Add list/detail UI copy and filters for “my household” vs. “all members” (web/PWA layer strings).
+- Write regression tests to confirm Elder 1 caregivers cannot read Elder 2 data; include household default visibility.
+:::
+
+:::task-stub{title="Phase 2: task engine MVP"}
+- Implement Task recurrence logic (daily/weekly/monthly/custom) with `TaskCompletion` rollup and assignment (`tasks/models.py`, `tasks/services/recurrence.py`).
+- Create Task list endpoints with overdue/due-soon filters plus My Tasks/Household/Elder-specific scopes (`tasks/views.py`).
+- Add serializer validation for category-specific constraints (BILL_REMINDER forbids payment fields; ELDER_CARE requires elder link when provided).
+:::
+
+:::task-stub{title="Phase 3: nutrition data path"}
+- Expand Ingredient fields for macro/micro nutrition and add validation (`food/models.py`, migrations).
+- Implement nutrition aggregation for recipes (pulling RecipeIngredient quantities) and persist totals on save (`food/services/nutrition_aggregation.py`).
+- Add user-facing checks for allergens/diet conflicts using `UserNutritionProfile` (views/services layered in `accounts` or `food`).
+:::
+
+:::task-stub{title="Phase 4: scan/OCR queueing"}
+- Implement `ScanEvent` model and barcode lookup pipeline invoking `product_lookup_service.py` and enrichment proposal flow.
+- Add Tesseract-backed receipt upload endpoint and line-parsing service with fuzzy product matching (`food/services/receipt_parser.py`).
+- Queue enrichment/background sync jobs for offline scans and replays (`tasks/services/background_sync.py`), ensuring idempotent updates.
+:::
+
+## 0) Enrichment & Provenance Enablement
+Apply the roadmap’s enrichment strategy in code, preserving local-first, user-controlled flows.
+
+:::task-stub{title="Implement enrichment services and provenance"}
+- Update `ingredient_enrichment_service.py`, `product_lookup_service.py`, and `nutrition_enrichment_service.py` to honor the roadmap order: Local DB → Open Food Facts → USDA FoodData Central → UPCItemDB → Edamam (paid) → retail APIs. Add per-source timeouts and feature flags so lookups never block saves.
+- Normalize service outputs to a proposed payload (name, nutrition, serving size, confidence, source metadata). Persist provenance fields (`source_system`, `source_url`, `source_confidence`) on Ingredients, Products, RecipeIngredients, and any models storing nutrition/barcode data.
+- Respect offline entry: queue enrichment requests in `BackgroundSyncJob`; replay them idempotently on reconnect without overwriting user edits. Present review/decline flows before accepting remote data.
+- Add observability and QA coverage for source ordering, fallbacks, offline-to-online retries, and user overrides; document API fields as optional/nullable when enrichment is disabled.
+:::
 
 ## 1) Consolidate Tasks into Core Bill-Reminder Usage
 The finance subsystem is removed; bill reminders now use Task with category `BILL_REMINDER`.
