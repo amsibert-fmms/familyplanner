@@ -2,7 +2,7 @@
 
 This roadmap outlines phased delivery for the Family Planner project, including core milestones and estimated timelines.
 
-See the [Planning Index](./README.md) for how this roadmap fits with the [Data Model Plan](./data-model-plan.md), [Enrichment Strategy](./enrichment-strategy.md), and [Data Dictionary](./data-dictionary.md).
+See the [Planning Index](./README.md) for how this roadmap fits with the [Data Model Plan](./data-model-plan.md) and [Data Dictionary](./data-dictionary.md). The former standalone Enrichment Strategy has been merged into this roadmap for easier sequencing.
 
 ## Reading Guide
 - **Status tags:** Inline markers like _(In Progress)_ or _(Complete — 2024-06-15)_ communicate current state; keep them updated during weekly reviews.
@@ -13,6 +13,19 @@ See the [Planning Index](./README.md) for how this roadmap fits with the [Data M
 - **Now:** Phase 0 hardening and Phase 1 visibility enforcement.
 - **Next:** Phase 2 task engine features and templates.
 - **Later:** Phase 3 meal planning foundations and beyond.
+
+## 🧪 Enrichment Strategy (local-first and user-controlled)
+- **Principles:** local-first storage; user review before save; privacy/offline-first; provenance metadata (source system/URL/confidence).
+- **Scope:** Ingredients, Products, PantryItems, RecipeIngredients, and any models with nutrition or barcode data; optional provenance fields (`source_url`, `source_system`, `source_confidence`).
+- **External sources (configurable):** Open Food Facts → USDA FoodData Central → UPCItemDB → Edamam (paid) → retail APIs (Walmart/Target). Use optional timeouts and never block saves.
+- **Pipeline order & services:** Local DB → Open Food Facts → USDA → heuristics (name parsing). Implement in `ingredient_enrichment_service.py`, `product_lookup_service.py`, and `nutrition_enrichment_service.py`, returning a common proposed payload (name, nutrition, serving size, confidence, source).
+- **User flows:**
+  - **Barcode/Product:** create `ScanEvent`/`Product` → attempt lookups in priority order → show proposed product/ingredient/nutrition before saving → allow edits/decline.
+  - **New Ingredient:** user types ingredient → query sources for nutrition → show macros/micros with confidence and profile warnings → user edits/accepts → save with provenance.
+  - **Receipt OCR:** OCR lines parsed to Products → unknown lines trigger lookups → user approves/edits per line or batch → persist locally; enqueue background sync when offline.
+- **Offline & background sync:** permit offline entry; queue lookups via `BackgroundSyncJob`; on reconnection, run idempotent enrichment without overwriting user edits; present diffs for review.
+- **Observability & configuration:** feature flags for sources and timeouts; secure API keys; structured metrics for lookup success/latency/user acceptance.
+- **QA & docs expectations:** mention optional enrichment/provenance in API docs; add tests for source ordering, fallbacks, offline-to-online retries, and user override behavior.
 
 ## 🗾 Phase 0 — Foundation & Infrastructure (1–2 weeks)
 

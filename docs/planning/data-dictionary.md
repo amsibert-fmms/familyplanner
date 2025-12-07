@@ -2,7 +2,12 @@
 
 This document captures the full data dictionary for the Family Planner application, organized by app.
 
-Use it with the [Planning Index](./README.md) to navigate related materials such as the [Roadmap](./roadmap.md), [Data Model Plan](./data-model-plan.md), and [Enrichment Strategy](./enrichment-strategy.md).
+Use it with the [Planning Index](./README.md) to navigate related materials such as the [Roadmap](./roadmap.md) (including the enrichment strategy), and the [Data Model Plan](./data-model-plan.md).
+
+## Enrichment & Provenance Quick Reference
+- **Source order (configurable):** Local DB → Open Food Facts → USDA FoodData Central → UPCItemDB → Edamam (paid) → retail APIs (Walmart/Target). Each source should be feature-flagged and time-bounded so enrichment never blocks saves.
+- **User control:** Enrichment proposals are reviewed/edited before persisting; user edits override remote data. Offline entries queue lookups for replay via `BackgroundSyncJob` without overwriting local changes.
+- **Provenance fields:** When present, `source_system`, `source_url`, and `source_confidence` remain optional/nullable. They capture where ingredient/product/nutrition data came from and the confidence of that source.
 
 ## 1. App: accounts
 
@@ -260,6 +265,8 @@ Creates `Task(category=BILL_REMINDER)` monthly.
 | source_url | string (nullable) |  |
 | source_confidence | float (nullable) | 0–1 |
 
+**Enrichment notes:** New ingredient creation runs the enrichment pipeline to propose nutrition per 100g and provenance metadata; users can edit or decline proposals. Provenance fields remain nullable when enrichment is disabled or data is user-entered only.
+
 ### 6.2 Recipe (extends OwnedVisibleModel)
 
 | Field | Type | Description |
@@ -302,6 +309,8 @@ Creates `Task(category=BILL_REMINDER)` monthly.
 | source_system | string | USDA/OFF/Manual |
 | source_url | string |  |
 | source_confidence | float |  |
+
+**Enrichment notes:** Product lookups (including barcode scans and receipt parsing) follow the roadmap source order and should surface proposed matches for user confirmation before storing provenance.
 
 ### 6.5 ProductBarcode
 

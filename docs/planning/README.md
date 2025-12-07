@@ -8,15 +8,15 @@ This folder centralizes the planning references for the Family Planner project s
 - **Data & QA:** reference canonical field definitions and enrichment expectations when validating models and integrations.
 
 ## Document Map
-- **[Roadmap](./roadmap.md):** phased delivery plan with milestones and expected timelines.
-- **[Data Model Plan](./data-model-plan.md):** implementation guidance and task stubs for key modeling workstreams.
-- **[Enrichment Strategy](./enrichment-strategy.md):** local-first approach for optional external lookups and provenance.
-- **[Data Dictionary](./data-dictionary.md):** canonical field definitions across apps to keep naming and usage consistent.
+- **[Roadmap](./roadmap.md):** phased delivery plan with milestones, expected timelines, and the merged enrichment strategy.
+- **[Data Model Plan](./data-model-plan.md):** implementation guidance and task stubs for key modeling workstreams (now including enrichment/provenance execution tasks and a roadmap-to-codex breakdown).
+- **[Archived Enrichment Strategy](./enrichment-strategy.md):** legacy placeholder pointing to the roadmap section that now owns enrichment details.
+- **[Data Dictionary](./data-dictionary.md):** canonical field definitions across apps, plus an enrichment/provenance quick reference to align field usage with the roadmap.
 
 ## How to Use These Docs
 1. Start with the **Roadmap** to understand sequencing and scope.
 2. Consult the **Data Model Plan** to break roadmap items into actionable engineering tasks.
-3. Apply the **Enrichment Strategy** wherever external data is involved (ingredients, barcodes, OCR).
+3. Apply the **Roadmap’s enrichment strategy section** wherever external data is involved (ingredients, barcodes, OCR).
 4. Validate implementations against the **Data Dictionary** to keep schemas and terminology aligned.
 
 ## Planning Status and Cadence
