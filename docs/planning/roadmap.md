@@ -1,6 +1,8 @@
 # Family Planner Roadmap
 
-This document outlines the proposed phases for the Family Planner project, including core milestones and estimated timelines.
+This roadmap outlines phased delivery for the Family Planner project, including core milestones and estimated timelines.
+
+See the [Planning Index](./README.md) for how this roadmap fits with the [Data Model Plan](./data-model-plan.md), [Enrichment Strategy](./enrichment-strategy.md), and [Data Dictionary](./data-dictionary.md).
 
 ## 🗾 Phase 0 — Foundation & Infrastructure (1–2 weeks)
 

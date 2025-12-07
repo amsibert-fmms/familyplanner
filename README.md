@@ -2,6 +2,10 @@
 
 A personalized custom planner built with Django.
 
+## Planning Documentation
+
+- [Planning index](docs/planning/README.md): roadmap, data model plan, enrichment strategy, and data dictionary.
+
 ## Features
 
 - Django 5.0 with Django REST Framework

@@ -1,6 +1,8 @@
-# Planning Data Dictionary
+# Data Dictionary
 
 This document captures the full data dictionary for the Family Planner application, organized by app.
+
+Use it with the [Planning Index](./README.md) to navigate related materials such as the [Roadmap](./roadmap.md), [Data Model Plan](./data-model-plan.md), and [Enrichment Strategy](./enrichment-strategy.md).
 
 ## 1. App: accounts
 

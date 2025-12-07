@@ -1,6 +1,8 @@
-# Updated Data Model Implementation Plan
+# Data Model Implementation Plan
 
-Below is a planning document for implementing the updated data model. Each major workstream includes a task stub with step-by-step implementation guidance.
+This plan breaks down the data-model-related workstreams into actionable task stubs.
+
+Use it alongside the [Planning Index](./README.md) and related references like the [Roadmap](./roadmap.md), [Enrichment Strategy](./enrichment-strategy.md), and [Data Dictionary](./data-dictionary.md).
 
 ## 1) Consolidate Tasks into Core Bill-Reminder Usage
 The finance subsystem is removed; bill reminders now use Task with category `BILL_REMINDER`.

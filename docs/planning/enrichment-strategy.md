@@ -1,6 +1,8 @@
-# Hybrid Local + Optional External Data Fetch Design
+# Data Enrichment Strategy
 
-This document describes a local-first data enrichment approach for ingredients, products, nutrition fields, barcodes, and receipt OCR entries. External sources are used opportunistically, never required, and always editable by the user.
+This document describes a local-first enrichment approach for ingredients, products, nutrition fields, barcodes, and receipt OCR entries. External sources are used opportunistically, never required, and always editable by the user.
+
+Review the [Planning Index](./README.md) for context and related materials, including the [Roadmap](./roadmap.md), [Data Model Plan](./data-model-plan.md), and [Data Dictionary](./data-dictionary.md).
 
 ## Principles
 - Local-first storage with optional enrichment; the data model does not depend on external services.
